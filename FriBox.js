@@ -27,6 +27,12 @@ var streznik = http.createServer(function(zahteva, odgovor) {
    }
 });
 
+//doda funkcijo listen za zagon streznika
+    streznik.listen(process.env.PORT, function(){
+        console.log("Strežnik je zagnan");
+        
+    });
+
 function posredujOsnovnoStran(odgovor) {
     posredujStaticnoVsebino(odgovor, './public/fribox.html', "");
 }
@@ -74,6 +80,21 @@ function posredujSeznamDatotek(odgovor) {
             odgovor.end();      
         }
     })
+}
+function posredujNapako404(odgovor){
+    odgovor.writeHead(404,{'Content-Type':'text/plain'});
+    odgovor.write('Napaka 4040: Vira ni mogoče najti!');
+    odgovor.end();
+}
+function izbrisiDatoteko(odgovor, datoteka){
+    fs.unlink(datoteka, function(napaka){
+        if(napaka){
+            //throw 404!
+        }else{
+            //return "Datoteka izbrisi" z kodo 200
+        }
+        
+    });
 }
 
 function naloziDatoteko(zahteva, odgovor) {

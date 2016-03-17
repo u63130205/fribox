@@ -21,12 +21,17 @@ window.addEventListener('load', function() {
 				
 				var datotekeHTML = document.querySelector("#datoteke");
 				
+			
 				for (var i=0; i<datoteke.length; i++) {
 					var datoteka = datoteke[i];
 					
 					var velikost = datoteka.velikost;
-					var enota = "B";
-					
+					if(velikost > 1024){
+						var enota = "KB";
+						velikost = velikost/1024;
+					}else{
+						var enota = "B";
+					}
 					datotekeHTML.innerHTML += " \
 						<div class='datoteka senca rob'> \
 							<div class='naziv_datoteke'> " + datoteka.datoteka + "  (" + velikost + " " + enota + ") </div> \
@@ -40,9 +45,15 @@ window.addEventListener('load', function() {
 					document.querySelector("span[akcija=brisi]").addEventListener("click", brisi);
 				}
 				ugasniCakanje();
+			
+				
 			}
 		};
+		xhttp.open("GET", "/datoteke", true);
+		xhttp.send();
 	}
+	pridobiSeznamDatotek();
+  
 	
 	var brisi = function(event) {
 		prizgiCakanje();
